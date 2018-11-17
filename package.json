@@ -1,0 +1,28 @@
+{
+  "name": "lth_api",
+  "version": "1.0.0",
+  "description": "API para la plataforma LearginToHack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "Learning",
+    "To",
+    "Hack",
+    "API"
+  ],
+  "author": "Axel Alexis Montejo Lopez (alemontejo.lp@gmail.com)",
+  "license": "ISC",
+  "dependencies": {
+    "better-validator": "^2.1.8",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "moment": "^2.22.2",
+    "multer": "^1.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  }
+}

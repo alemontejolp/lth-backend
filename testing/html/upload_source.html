@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    form {
+      width: 50%;
+      margin: auto;
+      margin-top: 10%;
+    }
+    input, textarea {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <form enctype="multipart/form-data" action="http://192.168.88.165:3000/devenv/run" method="POST">
+    <input type="file" name="source">
+    <textarea type="text" cols="30" rows="10" name="code"></textarea>
+    <textarea name="stdin" id="" cols="30" rows="10"></textarea>
+    <input type="submit" value="Upload">
+  </form>
+</body>
+</html>
