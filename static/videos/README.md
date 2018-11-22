@@ -1,1 +1,0 @@
-# Directorio de vídeos subidos.

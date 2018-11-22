@@ -7,6 +7,7 @@ const ProcessTracking = require('../lib/process_traking');
 const EventEmitter = require('events');
 const fs = require('fs');
 const moment = require('moment');
+const util = require('../services/utils');
 const midd = {};
 
 //Agrega un seguidor de registros y un método de formateo de respuestas.
@@ -25,7 +26,7 @@ midd.dataFormat = (req, res, next) => {
     method: req.method
   });
 
-  res.finish = (r = {}) => {console.log(r.stderr);
+  res.finish = (r = {}) => {
     r = res.json({
       success: (r.success !== undefined && r.success !== null) ? (r.success) : (true),
       stderr: r.stderr || [],
@@ -37,6 +38,18 @@ midd.dataFormat = (req, res, next) => {
 
   return next();
 };
+
+midd.allowedOriginsOfTheApi = function(req, res, next) {
+  res.header("access-control-allow-origin", "*");
+  return next();
+};
+
+midd.allowedHeaders = function(req, res, next) {
+  res.header("access-control-allow-headers", "x-clientapp, Authorization, content-type");
+  res.header("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE");
+  res.header("x-clientapp");
+  return next();
+}
 
 //Le da la extención .cpp a los archivos fuente entrantes, además de validarlos.
 //Si no pasa la validación, responde el error.
@@ -107,6 +120,31 @@ midd.compile = (req, res, next) => {
       stderr: ['An unexpected error has ocurred.']
     });
   });
+};
+
+//Revisa el token de sesión del usuario. Si lo tiene y está vigente, continúa.
+//En otro caso, retorna el error.
+midd.userAuth = (req, res, next) => {
+  let user;
+  try {
+    user = util.decodeJWT(req.headers.authorization);
+  } catch(error) {
+    req.api.tracking.push(error.message);
+    return res.status(403).finish({
+      success: false,
+      stderr: ['Your token is invalid.']
+    });
+  }
+  if(user.exp < moment().unix()) {
+    req.api.tracking.push('Token expirado.');
+    return res.status(403).finish({
+      success: false,
+      stderr: ['Your session has expired.']
+    });
+  }
+
+  req.api.user = user;
+  return next();
 };
 
 module.exports = midd;

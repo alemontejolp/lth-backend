@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    form {
+      width: 60%;
+      margin: auto;
+      margin-top: 20%;
+    }
+    input {
+      width: 100%;
+      padding: 1%;
+    }
+  </style>
+</head>
+<body>
+  <form id="form">
+    <input type="text" id ="course" placeholder="Course">
+    <input type="text" id ="title" placeholder="Title">
+    <input type="file" id ="file">
+    <input type="submit">
+  </form>
+  <script>
+    document.getElementById('form').addEventListener('submit', e => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      let formData = new FormData();
+      let file = document.getElementById('file');
+
+      formData.append('course', document.getElementById('course').value);
+      formData.append('title', document.getElementById('title').value);
+      formData.append('video', file.files[0]);
+
+      fetch('http://localhost:3000/v1/admin/video', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTQyODkxMzQyLCJleHAiOjE1NDI5Nzc3NDJ9.A66eUUc_mqb-OJJF-J7UBWHd4hAcbaNmv3egd0DdsAo_BVgwC50tGVJ0XLnBqdq4wBDs1_tDGSuimYMicskRB6LZsSFYq4vqoHwkpEGhV7cQ1qljpvOlejojEMacjzEdkVpzu4Lm14nVRkJD4LZuhq37L45G__pBBwx3chOeOVeyw3nn7MiJwPG47j_RjcZgysqfqQkvdxKNEN64Y4ijRCTOM3yNOLE-X3iuN1V6uWIou3bvKvLNM_va5zPiCQz2QHRytNLfXpUQxJb3gTTFx91athvuvzGX92XWkpn-vNmOCtUOxec8ji-r71OOEegHRu-3pkZ0e-f5swyyDRwLcA'
+        },
+        body: formData
+      })
+      .then((res) => {
+        console.log(res);
+        console.log(res.body);
+        alert(res.statusText);
+      })
+      .catch((res) => {
+        console.log(res);
+        console.log(res.body);
+        alert(res.statusText);
+      });
+    });
+  </script>
+</body>
+</html>
