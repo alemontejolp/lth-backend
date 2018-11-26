@@ -6,6 +6,7 @@ const middlewares = require('./services/middlewares');
 const devenvModule = require('./modules/devenv/routes');
 const userModule = require('./modules/users/routes');
 const adminModule = require('./modules/admin/routes');
+const coursesModule = require('./modules/courses/routes');
 
 const server = express();
 
@@ -19,7 +20,8 @@ server.use('/static', express.static('static'));
 
 //Modules.
 server.use('/v1/api/devenv', devenvModule);
-server.use('/v1/api/user', userModule);
+server.use('/v1/api/users', userModule);
 server.use('/v1/admin', adminModule);
+server.use('/v1/api/courses', coursesModule)
 
 module.exports = server;

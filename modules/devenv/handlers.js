@@ -15,7 +15,7 @@ handler.run = (req, res) => {
     let status = (result) ? (200) : (201);
     res.status(status).finish({
       success: result.success,
-      stdout: result.stdout,
+      stdout: { out: result.stdout },
       stderr: (result.stderr !== '') ? ([result.stderr]) : ([])
     });
     util.rmBuildAndSource(sourcePath, buildPath);

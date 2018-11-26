@@ -61,6 +61,7 @@ handler.signin = (req, res, next) => {
 
 handler.createCourse = (req, res, next) => {
   req.body.author = req.api.user.id;
+  req.body.description = (req.body.description) ? (req.body.description) : ('');
   let stderr = validator.creationCourseData(req.body);
   if(stderr.length) {
     req.api.tracking.push('Entrada inválida.');
@@ -92,6 +93,7 @@ handler.createCourse = (req, res, next) => {
 };
 
 handler.creationVideo = (req, res) => {
+  req.body.description = (req.body.description) ? (req.body.description) : ('');
   req.body.video = req.file;
   let stderr = validator.creationVideoData(req.body);
   if(stderr.length) {

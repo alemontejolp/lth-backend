@@ -12,4 +12,9 @@ flow.signin = [
   handlers.signin
 ];
 
+flow.getUserData = [
+  midd.userAuth,
+  handlers.getUserData
+];
+
 module.exports = flow;

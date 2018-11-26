@@ -86,8 +86,25 @@ handler.signin = (req, res, next) => {
         success: false,
         stderr: ['An unexpected error has ocurred.']
       });
-    })
+    });
+  });
+};
+
+handler.getUserData = (req, res) => {
+  mysql.getUserById(req.api.user.id)
+  .then(user => {
+    return res.status(200).finish({
+      success: true,
+      stdout: user.data[0]
+    });
   })
+  .catch(error => {
+    req.api.tracking.push(error.message);
+    return res.status(500).finish({
+      success: false,
+      stderr: ['An unexpected error has ocurred.']
+    });
+  });
 };
 
 module.exports = handler;
