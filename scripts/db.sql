@@ -89,6 +89,16 @@ create table tried_problems (
     foreign key (problem_id) references problems(id)
 );
 
+create table clientapps (
+	id int unsigned primary key auto_increment unique,
+    appname varchar(255) not null,
+    appkey varchar(255) not null unique,
+    email varchar(255) not null unique,
+    active bit not null default 1,
+    create_at date,
+    update_at date
+);
+
 #Stored Procedures.
 delimiter &&
 create procedure create_user(
@@ -419,6 +429,32 @@ begin
         users.email
         from users
 			where users.id = user limit 1;
+end &&
+
+# drop procedure create_clientapp
+delimiter &&
+create procedure create_clientapp(
+	appname varchar(255),
+    appkey varchar(255),
+    email varchar(255)
+)
+begin
+	declare exist varchar(255);
+    
+    select clientapps.email into exist from clientapps where clientapps.email = email limit 1;
+    
+    if(exist is null) then
+		insert into clientapps(appname, appkey, email, create_at, update_at)
+		values (appname, appkey, email, date(now()), date(now()));
+		select 
+			1 as success,
+			"Done." as message,
+			last_insert_id() as id;
+	else
+		select
+			0 as success,
+            "This email already exist." as message;
+	end if;
 end &&
 
 #drop database lth;

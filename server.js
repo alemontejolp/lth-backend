@@ -15,6 +15,7 @@ server.use(bodyParser.json());
 server.use(middlewares.allowedOriginsOfTheApi);
 server.use(middlewares.allowedHeaders);
 server.use(middlewares.dataFormat);
+server.use(middlewares.appAuth);
 
 server.use('/static', express.static('static'));
 

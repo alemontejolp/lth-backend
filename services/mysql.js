@@ -149,4 +149,16 @@ serv.getUserById = (user) => {
   return serv.execGetSP(sql).then(verifyResponse);
 };
 
+//Registra una app cliente.
+serv.createClientApp =(appname, appkey, email) => {
+  let sql = `call create_clientapp("${appname}", "${appkey}", "${email}")`;
+  return serv.execSetSP(sql);
+};
+
+//Obtiene todos los datos de una app cliente.
+serv.getAppData = (appkey) => {
+  let sql = `select * from clientapps where clientapps.appkey = "${appkey}" and clientapps.active = 1 limit 1`;
+  return serv.execGetSP(sql);
+};
+
 module.exports = serv;

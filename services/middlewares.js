@@ -8,6 +8,7 @@ const EventEmitter = require('events');
 const fs = require('fs');
 const moment = require('moment');
 const util = require('../services/utils');
+const mysql = require('../services/mysql');
 const midd = {};
 
 //Agrega un seguidor de registros y un método de formateo de respuestas.
@@ -66,7 +67,7 @@ midd.sourceFormat = (req, res, next) => {
         req.api.tracking.push(error.message);
         return res.status(500).finish({
           success: false,
-          stderr: ['An unexpected error has ocurred.']
+          stderr: ['An unexpected error has occurred.']
         });
       }
       req.file = {
@@ -86,7 +87,7 @@ midd.sourceFormat = (req, res, next) => {
         req.api.tracking.push(error.message);
         return res.status(500).finish({
           success: false,
-          stderr: ['An unexpected error has ocurred.']
+          stderr: ['An unexpected error has occurred.']
         });
       }
   
@@ -117,7 +118,7 @@ midd.compile = (req, res, next) => {
     req.api.tracking.push(error.message);
     res.status(500).finish({
       success: false,
-      stderr: ['An unexpected error has ocurred.']
+      stderr: ['An unexpected error has occurred.']
     });
   });
 };
@@ -145,6 +146,33 @@ midd.userAuth = (req, res, next) => {
 
   req.api.user = user;
   return next();
+};
+
+midd.appAuth = (req, res, next) => {
+  let appkey = req.headers['x-clientapp'];
+  if(!appkey) {
+    return res.status(403).finish({
+      success: false,
+      stderr: ["Forbidden. That app don't have permited using this service."]
+    });
+  }
+  mysql.getAppData(appkey)
+  .then(clientapp => {
+    if(!clientapp) {
+      return res.status(403).finish({
+        success: false,
+        stderr: ["Forbidden. That app don't have permited using this service."]
+      });
+    }
+    return next();
+  })
+  .catch(error => {
+    req.api.tracking.push(error.message);
+    res.status(500).finish({
+      success: false,
+      stderr: ['An unexpected error has occurred.']
+    });
+  })
 };
 
 module.exports = midd;

@@ -3,6 +3,7 @@
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
+const crypto = require('crypto');
 const util = {};
 
 util.rmBuildAndSource = (sourcePath, buildPath) => {
@@ -23,6 +24,11 @@ util.generateJWT = (userId) => {
 util.decodeJWT = (token) => {
   let publicKey = fs.readFileSync('./cert/public.pem');
   return jwt.verify(token, publicKey, {algorithms: 'RS256'});
+};
+
+util.generateAppkey = (appname, email) => {
+  let key = `${moment().unix()}/${appname}/${email}`;
+  return crypto.createHash('sha256', { encoding:'utf8'} ).update(key).digest('hex');
 };
 
 module.exports = util;
