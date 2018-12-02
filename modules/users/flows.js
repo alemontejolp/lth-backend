@@ -5,14 +5,17 @@ const handlers = require('./handlers');
 const midd = require('../../services/middlewares');
 
 flow.signup = [
+  midd.appAuth,
   handlers.signup
 ];
 
 flow.signin = [
+  midd.appAuth,
   handlers.signin
 ];
 
 flow.getUserData = [
+  midd.appAuth,
   midd.userAuth,
   handlers.getUserData
 ];

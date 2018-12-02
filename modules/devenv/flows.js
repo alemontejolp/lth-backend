@@ -7,6 +7,7 @@ const handlers = require('./handlers');
 const source = require('multer')({ dest: conf.sourcePath });
 
 flows.run = [
+  midd.appAuth,
   source.single('source'),
   midd.sourceFormat,
   midd.compile,

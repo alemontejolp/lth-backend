@@ -41,7 +41,7 @@ midd.dataFormat = (req, res, next) => {
 };
 
 midd.allowedOriginsOfTheApi = function(req, res, next) {
-  res.header("access-control-allow-origin", "*");
+  res.header("Access-Control-Allow-Origin", "*");
   return next();
 };
 
@@ -148,9 +148,10 @@ midd.userAuth = (req, res, next) => {
   return next();
 };
 
-midd.appAuth = (req, res, next) => {
+midd.appAuth = (req, res, next) => {console.log(req.headers);
   let appkey = req.headers['x-clientapp'];
   if(!appkey) {
+    req.api.tracking.push('Sin hash de autorización');
     return res.status(403).finish({
       success: false,
       stderr: ["Forbidden. That app don't have permited using this service."]
@@ -159,6 +160,7 @@ midd.appAuth = (req, res, next) => {
   mysql.getAppData(appkey)
   .then(clientapp => {
     if(!clientapp) {
+      req.api.tracking.push('Hash de autorización no reconocido.');
       return res.status(403).finish({
         success: false,
         stderr: ["Forbidden. That app don't have permited using this service."]

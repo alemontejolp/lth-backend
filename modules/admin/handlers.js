@@ -10,7 +10,7 @@ const conf = require('../../config');
 const fs = require('fs');
 const moment = require('moment');
 
-handler.signin = (req, res, next) => {
+handler.signin = (req, res, next) => {console.log(req.headers);
   let failed = validator.signupAdminData(req.body);
   if(failed.length) {
     req.api.tracking.push('Tipos de credenciales inválidos.');
@@ -24,7 +24,7 @@ handler.signin = (req, res, next) => {
   .then(admin => {
     if(!admin) {
       req.api.tracking.push('Admin inexistente.');
-      return req.status(201).finish({
+      return res.status(201).finish({
         success: false,
         stderr: ['Admin missing.']
       });
