@@ -114,7 +114,7 @@ handler.creationVideo = (req, res) => {
   req.body.alias = crypto.createHash('sha256').update(`${req.api.user.id}${moment().unix()}`).digest('hex');
 
   mysql.createVideo(req.body)
-  .then(result => { console.log(result);
+  .then(result => { //console.log(result);
     if(!result.success) {
       req.api.tracking.push(result.message);
       res.status(201).finish({

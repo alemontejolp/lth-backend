@@ -87,8 +87,8 @@ serv.createCourse = (course) => {
 //Crea un nuevo vído.
 //{ course:string (alias del curso), title:string, url:string, alias:string }
 //Return: { success:boolean, message:string }
-serv.createVideo = (video) => {console.log(video);
-  let sql = `call create_video ("${video.course}", "${video.title}", "${course.description}", "${video.url}", "${video.alias}")`;
+serv.createVideo = (video) => {//console.log(video);
+  let sql = `call create_video ("${video.course}", "${video.title}", "${video.description}", "${video.url}", "${video.alias}")`;
   return serv.execSetSP(sql);
 };
 
