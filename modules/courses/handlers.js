@@ -17,7 +17,7 @@ handler.getCourses = (req, res) => {
   .then(courses => {
     return res.status(200).finish({
       success: true,
-      stdout: { courses: courses }
+      stdout: { courses: courses[0], total: courses[1][0].total }
     });
   })
   .catch(error => {
@@ -39,7 +39,7 @@ handler.getVideos = (req, res) => {
     if(videos.success)
       return res.status(200).finish({
         success: true,
-        stdout: { videos: videos.data }
+        stdout: { videos: videos.data[0], total: videos.data[1][0].total }
       });
     res.status(403).finish({
       success: false,
@@ -108,7 +108,7 @@ handler.getPurchasedCourses = (req, res) => {
     if(courses.success) {
       return res.status(200).finish({
         success: true,
-        stdout: { courses: courses.data }
+        stdout: { courses: courses.data[0], total: courses.data[1][0].total }
       });
     }
     res.status(400).finish({

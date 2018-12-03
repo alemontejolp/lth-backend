@@ -107,7 +107,8 @@ serv.savePurchasedCourse = (data) => {
 // asc: si es ascendento o no [1|0].
 serv.findCourses = (find, start, limit, asc) => {
   let sql = `call find_courses("${find}", ${start}, ${limit}, ${asc})`;
-  return serv.execGetSP(sql);
+  return serv.query(sql);
+  //return serv.execGetSP(sql);
 };
 
 //Obtiene videos de un curso.
@@ -117,7 +118,8 @@ serv.findCourses = (find, start, limit, asc) => {
 // limit: registros a traer.
 serv.getVideos = (course, user, start, limit) => {
   let sql = `call get_videos("${course}", ${user}, ${start}, ${limit})`;
-  return serv.execGetSP(sql).then(verifyResponse);
+  return serv.query(sql).then(verifyResponse);
+  //return serv.execGetSP(sql).then(verifyResponse);
 };
 
 //Registra un curso como comprado.
@@ -140,7 +142,8 @@ serv.getVideoData = (video, user) => {
 // user: id del usuario.
 serv.getPurchasedCourses = (user, start, limit) => {
   let sql = `call get_purchased_courses(${user}, ${start}, ${limit})`;
-  return serv.execGetSP(sql).then(verifyResponse);
+  return serv.query(sql).then(verifyResponse);
+  //return serv.execGetSP(sql).then(verifyResponse);
 };
 
 //Obtiene datos del usuario para desplegar.

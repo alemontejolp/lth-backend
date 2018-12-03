@@ -310,6 +310,13 @@ begin
 			order by courses.id desc
 			limit _start, _limit;
 	end if;
+    
+    select
+		count(*) as total
+	from courses
+	where 
+		courses.title regexp search and
+		courses.active = 1;
 end &&
 
 # drop procedure get_videos
@@ -344,6 +351,10 @@ begin
             from videos
             order by videos.id desc
             limit _start, _limit;
+		
+        select
+			count(*) as total
+            from videos;
 	elseif course_id is null then
 		select "This course doesn't exist." as message;
 	else 
@@ -414,6 +425,13 @@ begin
 		where purchased_courses.user_id = user
         order by purchased_courses.id desc
         limit _start, _limit;
+        
+	select
+		count(*) as total
+	from courses
+		inner join purchased_courses
+				on purchased_courses.course_id = courses.id
+		where purchased_courses.user_id = user;
 end &&
 
 # drop procedure get_user_by_id;

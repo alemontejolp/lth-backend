@@ -148,7 +148,7 @@ midd.userAuth = (req, res, next) => {
   return next();
 };
 
-midd.appAuth = (req, res, next) => {console.log(req.headers);
+midd.appAuth = (req, res, next) => {//console.log(req.headers);
   let appkey = req.headers['x-clientapp'];
   if(!appkey) {
     req.api.tracking.push('Sin hash de autorización');
