@@ -102,7 +102,9 @@ handler.creationVideo = (req, res) => {
       success: false,
       stderr: stderr
     });
-    return fs.unlinkSync(conf.videoPath + req.file.filename);
+    if(req.body.video)
+      return fs.unlinkSync(conf.videoPath + req.file.filename);
+    return;
   }
   
   let extencion = req.file.originalname.split('.').pop();
