@@ -60,7 +60,7 @@ create table purchased_courses(
     create_at date,
     active bit default 1 not null,
     
-    foreign key (user_id) references admin_users(id),
+    foreign key (user_id) references users(id),
     foreign key (course_id) references courses(id)
 );
 
@@ -349,12 +349,14 @@ begin
             videos.create_at,
             videos.update_at
             from videos
+            where videos.course_id = course_id
             order by videos.id desc
             limit _start, _limit;
 		
         select
 			count(*) as total
-            from videos;
+            from videos
+            where videos.course_id = course_id;
 	elseif course_id is null then
 		select "This course doesn't exist." as message;
 	else 
