@@ -23,7 +23,11 @@ compAndRun.compile = (path, build_path) => {
 
     exec(command, async (error, stdout, stderr) => {
       if(error !== null) {
-        reject(error);
+        //reject(error);
+        resolve({
+          success: false,
+          stderr: error.message
+        });
       } else if(stderr !== '') {
         resolve({
           success: false,

@@ -104,10 +104,13 @@ midd.compile = (req, res, next) => {
   compAndRun.compile(conf.sourcePath + req.file.filename, '../.' + conf.buildPath)
   .then(result => {
     if(!result.success) {
-      req.api.tracking.push('Error en la compilación con g++.');
+      fs.unlinkSync(conf.sourcePath + req.file.filename);
+      let stderr = result.stderr.split('\n');
+      req.api.tracking.push(stderr.shift());
+      stderr = stderr.join('\n');
       return res.status(201).finish({
         success: false,
-        stderr: [result.stderr]
+        stderr: [stderr]
       });
     }
     req.api.programName = result.programName;
@@ -115,6 +118,7 @@ midd.compile = (req, res, next) => {
     return next();
   })
   .catch(error => {
+    fs.unlinkSync(conf.sourcePath + req.file.filename);
     req.api.tracking.push(error.message);
     res.status(500).finish({
       success: false,
