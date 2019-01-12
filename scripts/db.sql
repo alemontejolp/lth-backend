@@ -4,54 +4,54 @@ use lth;
 
 create table users (
 	id int unsigned primary key auto_increment unique,
-	username varchar(255) not null unique,
-	firstname varchar(255) not null,
-	lastname varchar(255) not null,
-	email varchar(255) not null unique,
-	password varchar(255) not null,
+	username varchar(254) not null unique,
+	firstname varchar(254) not null,
+	lastname varchar(254) not null,
+	email varchar(254) not null unique,
+	password varchar(254) not null,
     active bit default 1 not null,
     create_at date,
     update_at date
-);
+) DEFAULT CHARSET=utf8;
 
 create table admin_users (
 	id int unsigned primary key auto_increment unique,
-	firstname varchar(255) not null,
-	lastname varchar(255) not null,
-	email varchar(255) not null unique,
-	password varchar(255) not null,
+	firstname varchar(254) not null,
+	lastname varchar(254) not null,
+	email varchar(254) not null unique,
+	password varchar(254) not null,
     active bit default 1 not null,
     create_at date,
     update_at date
-);
+) DEFAULT CHARSET=utf8;
 
 create table courses (
 	id int unsigned primary key auto_increment unique,
-    title varchar(255) not null,
+    title varchar(254) not null,
     description text,
     price float(10,2) not null default 0,
     author int unsigned not null,
     active bit default 1 not null,
-    alias varchar(255) not null unique,
+    alias varchar(254) not null unique,
     create_at date,
     update_at date,
     
     foreign key (author) references admin_users(id)
-);
+) DEFAULT CHARSET=utf8;
 
 create table videos (
 	id int unsigned primary key auto_increment unique,
     course_id int unsigned not null,
-    title varchar(255) not null,
+    title varchar(254) not null,
     description text,
-    url varchar(255) not null,
+    url varchar(254) not null,
     active bit default 1 not null,
-    alias varchar(255) not null unique,
+    alias varchar(254) not null unique,
     create_at date,
     update_at date,
     
     foreign key (course_id) references courses(id)
-);
+) DEFAULT CHARSET=utf8;
 
 create table purchased_courses(
 	id int unsigned primary key auto_increment unique,
@@ -62,55 +62,55 @@ create table purchased_courses(
     
     foreign key (user_id) references users(id),
     foreign key (course_id) references courses(id)
-);
+) DEFAULT CHARSET=utf8;
 
 create table problems (
 	id int unsigned primary key auto_increment unique,
     author int unsigned not null,
-    title varchar(255) not null,
-    dir varchar(255) not null,
+    title varchar(254) not null,
+    dir varchar(254) not null,
     active bit default 1 not null,
-    alias varchar(255) not null unique,
+    alias varchar(254) not null unique,
     create_at date,
     update_at date,
     
     foreign key (author) references admin_users(id)
-);
+) DEFAULT CHARSET=utf8;
 
 create table tried_problems (
 	id int unsigned primary key auto_increment unique,
     user_id int unsigned not null,
     problem_id int unsigned not null,
     percent float (5,2) not null,
-    code_url varchar(255) not null,
+    code_url varchar(254) not null,
     create_at date,
     
     foreign key (user_id) references users(id),
     foreign key (problem_id) references problems(id)
-);
+) DEFAULT CHARSET=utf8;
 
 create table clientapps (
 	id int unsigned primary key auto_increment unique,
-    appname varchar(255) not null,
-    appkey varchar(255) not null unique,
-    email varchar(255) not null unique,
+    appname varchar(254) not null,
+    appkey varchar(254) not null unique,
+    email varchar(254) not null unique,
     active bit not null default 1,
     create_at date,
     update_at date
-);
+) DEFAULT CHARSET=utf8;
 
 #Stored Procedures.
 delimiter &&
 create procedure create_user(
-	username varchar(255),
-	firstname varchar(255),
-	lastname varchar(255),
-	email varchar(255),
-	password varchar(255)
+	username varchar(254),
+	firstname varchar(254),
+	lastname varchar(254),
+	email varchar(254),
+	password varchar(254)
 )
 begin
-	declare un varchar(255);
-    declare em varchar(255);
+	declare un varchar(254);
+    declare em varchar(254);
     
     select users.username into un from users where users.username = username;
     select users.email into em from users where users.email = email;
@@ -136,13 +136,13 @@ begin
 end &&
 #delimiter &&
 create procedure create_admin_user(
-	firstname varchar(255),
-	lastname varchar(255),
-	email varchar(255),
-	password varchar(255)
+	firstname varchar(254),
+	lastname varchar(254),
+	email varchar(254),
+	password varchar(254)
 )
 begin
-    declare em varchar(255);
+    declare em varchar(254);
     
     select admin_users.email into em from admin_users where admin_users.email = email;
     
@@ -164,11 +164,11 @@ end &&
 #drop procedure create_course
 delimiter &&
 create procedure create_course(
-	title varchar(255),
+	title varchar(254),
     description text,
     price float (10,2),
     author int unsigned,
-    alias varchar(255)
+    alias varchar(254)
 )
 begin
 	insert into courses (title, description, price, author, alias, create_at, update_at)
@@ -181,11 +181,11 @@ end &&
 # drop procedure create_video;
 # delimiter &&
 create procedure create_video (
-	course varchar(255),
-    title varchar(255),
+	course varchar(254),
+    title varchar(254),
     description text,
-    url varchar(255),
-    alias varchar(255)
+    url varchar(254),
+    alias varchar(254)
 )
 begin 
 	declare course_id int unsigned;
@@ -209,11 +209,11 @@ end &&
 delimiter &&
 create procedure register_purchased_course(
 	user int unsigned,
-    course varchar(255)
+    course varchar(254)
 )
 begin
 	declare exist int unsigned;
-    declare course_id varchar(255);
+    declare course_id varchar(254);
     
     select courses.id into course_id from courses where courses.alias = course and courses.active = 1 limit 1;
     select purchased_courses.id into exist from purchased_courses where user_id = user and purchased_courses.course_id = course_id limit 1;
@@ -238,9 +238,9 @@ end &&
 
 create procedure create_problem (
 	author int unsigned,
-    title varchar(255),
-    dir varchar(255),
-    alias varchar(255)
+    title varchar(254),
+    dir varchar(254),
+    alias varchar(254)
 )
 begin
 	insert into problems (author, title, dir, alias, create_at, update_at)
@@ -322,7 +322,7 @@ end &&
 # drop procedure get_videos
 delimiter &&
 create procedure get_videos(
-	course varchar(255),
+	course varchar(254),
     user int,
     _start int,
     _limit int
@@ -367,7 +367,7 @@ end &&
 # drop procedure get_video_data;
 delimiter &&
 create procedure get_video_data(
-	video varchar(255),
+	video varchar(254),
     user int unsigned
 )
 begin 
@@ -454,12 +454,12 @@ end &&
 # drop procedure create_clientapp
 delimiter &&
 create procedure create_clientapp(
-	appname varchar(255),
-    appkey varchar(255),
-    email varchar(255)
+	appname varchar(254),
+    appkey varchar(254),
+    email varchar(254)
 )
 begin
-	declare exist varchar(255);
+	declare exist varchar(254);
     
     select clientapps.email into exist from clientapps where clientapps.email = email limit 1;
     
