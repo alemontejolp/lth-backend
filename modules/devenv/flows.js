@@ -2,7 +2,7 @@
 
 const flows = {};
 const conf = require('../../config');
-const midd = require('../../services/middlewares');
+const midd = require('../../lib/middlewares');
 const handlers = require('./handlers');
 const source = require('multer')({ dest: conf.sourcePath });
 
@@ -10,7 +10,7 @@ flows.run = [
   midd.appAuth,
   source.single('source'),
   midd.sourceFormat,
-  midd.compile,
+  midd.build,
   handlers.run
 ];
 

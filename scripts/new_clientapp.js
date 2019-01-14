@@ -1,10 +1,10 @@
 'use strict';
 
-const mysql = require('../services/mysql');
-const util = require('../services/utils');
+const mysql = require('../lib/mysql');
+const util = require('../lib/utils');
 
 let appname = 'admin';
-let email = 'admin1x@lth.com';
+let email = 'admin@lth.com';
 let appkey = util.generateAppkey(appname, email);
 mysql.createClientApp(appname, appkey, email)
 .then((result) => {

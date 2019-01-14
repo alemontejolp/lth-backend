@@ -1,7 +1,7 @@
 'use strict';
 
 const flows = {};
-const middlewares = require('../../services/middlewares');
+const middlewares = require('../../lib/middlewares');
 const handlers = require('./handlers');
 
 flows.findCourses = [

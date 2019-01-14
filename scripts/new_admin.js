@@ -1,7 +1,8 @@
 'use strict';
 
-const mysql = require('../services/mysql');
-const bcrypt = require('bcrypt');
+const mysql = require('../lib/mysql');
+//const bcrypt = require('bcrypt');
+const util = require('../lib/utils');
 
 let admin = {
   email: 'amontejo@lth.com',
@@ -10,7 +11,7 @@ let admin = {
   password: 'qwerty'
 };
 
-bcrypt.hash(admin.password, 10).then(hash => {
+util.sign(admin.password).then(hash => {
   admin.password = hash;
   mysql.signupAdmin(admin).then(console.log).catch(console.error);
 })

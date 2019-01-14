@@ -1,10 +1,10 @@
 'use strict';
 
 const handler = {};
-const validator = require('../../services/validators');
-const bcrypt = require('bcrypt');
-const mysql = require('../../services/mysql');
-const util = require('../../services/utils');
+const validator = require('../../lib/validators');
+const bcrypt = /*require('bcrypt')*/ {};
+const mysql = require('../../lib/mysql');
+const util = require('../../lib/utils');
 
 handler.signup = (req, res) => {
   let valid = validator.signupData(req.body);
@@ -16,7 +16,7 @@ handler.signup = (req, res) => {
     });
   }
 
-  bcrypt.hash(req.body.password, 10)
+  util.sign(req.body.password)
   .then(hash => {
     req.body.password = hash;
     mysql.signupUser(req.body)
@@ -65,7 +65,7 @@ handler.signin = (req, res, next) => {
         stderr: ['User missing.']
       });
     }
-    bcrypt.compare(req.body.password, user.password)
+    util.verify(req.body.password, user.password)
     .then(comp => {
       if(comp) {
         let token = util.generateJWT(user.id);

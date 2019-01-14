@@ -17,11 +17,28 @@
   </style>
 </head>
 <body>
-  <form enctype="multipart/form-data" action="http://192.168.88.165:3000/devenv/run" method="POST">
+  <form enctype="multipart/form-data" action="http://192.168.88.165:3000/v1/api/devenv/run" method="POST" id="form">
     <input type="file" name="source">
     <textarea type="text" cols="30" rows="10" name="code"></textarea>
     <textarea name="stdin" id="" cols="30" rows="10"></textarea>
     <input type="submit" value="Upload">
   </form>
+  <script>
+    function send(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      let headers = new Headers({'x-clientapp': 'ada0536cae77ab2e75ef21b5437ba467b0670c352aa24b1c954325800ce00b9a'});
+      let data = new FormData(document.getElementById('form'));
+      let request = { method: 'POST', headers: headers, body: data };
+      fetch('http://localhost:3000/v1/api/devenv/run', request)
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+      })
+      .catch(console.error);
+    }
+    document.getElementById('form').addEventListener('submit', send);
+  </script>
 </body>
 </html>

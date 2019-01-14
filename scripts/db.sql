@@ -8,7 +8,7 @@ create table users (
 	firstname varchar(254) not null,
 	lastname varchar(254) not null,
 	email varchar(254) not null unique,
-	password varchar(254) not null,
+	password text not null,
     active bit default 1 not null,
     create_at date,
     update_at date
@@ -19,7 +19,7 @@ create table admin_users (
 	firstname varchar(254) not null,
 	lastname varchar(254) not null,
 	email varchar(254) not null unique,
-	password varchar(254) not null,
+	password text not null,
     active bit default 1 not null,
     create_at date,
     update_at date
@@ -100,13 +100,14 @@ create table clientapps (
 ) DEFAULT CHARSET=utf8;
 
 #Stored Procedures.
+# drop procedure if exists create_user;
 delimiter &&
 create procedure create_user(
 	username varchar(254),
 	firstname varchar(254),
 	lastname varchar(254),
 	email varchar(254),
-	password varchar(254)
+	password text
 )
 begin
 	declare un varchar(254);
@@ -134,12 +135,14 @@ begin
             last_insert_id() as id;
 	end if;
 end &&
+
+# drop procedure if exists create_admin_user
 #delimiter &&
 create procedure create_admin_user(
 	firstname varchar(254),
 	lastname varchar(254),
 	email varchar(254),
-	password varchar(254)
+	password text
 )
 begin
     declare em varchar(254);

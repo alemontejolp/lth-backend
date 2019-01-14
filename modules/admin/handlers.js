@@ -1,16 +1,16 @@
 'use strict';
 
 const handler = {};
-const mysql = require('../../services/mysql');
-const validator = require('../../services/validators');
-const util = require('../../services/utils');
-const bcrypt = require('bcrypt');
+const mysql = require('../../lib/mysql');
+const validator = require('../../lib/validators');
+const util = require('../../lib/utils');
+//const bcrypt = /*require('bcrypt')*/ {};
 const crypto = require('crypto')
 const conf = require('../../config');
 const fs = require('fs');
 const moment = require('moment');
 
-handler.signin = (req, res, next) => {console.log(req.headers);
+handler.signin = (req, res, next) => {//console.log(req.headers);
   let failed = validator.signupAdminData(req.body);
   if(failed.length) {
     req.api.tracking.push('Tipos de credenciales inválidos.');
@@ -30,7 +30,7 @@ handler.signin = (req, res, next) => {console.log(req.headers);
       });
     }
 
-    bcrypt.compare(req.body.password, admin.password)
+    util.verify(req.body.password, admin.password)
     .then(same => {
       if(!same) {
         req.api.tracking.push('Credenciales inválidas.');

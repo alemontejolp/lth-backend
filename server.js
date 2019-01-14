@@ -2,7 +2,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const middlewares = require('./services/middlewares');
+const middlewares = require('./lib/middlewares');
 const devenvModule = require('./modules/devenv/routes');
 const userModule = require('./modules/users/routes');
 const adminModule = require('./modules/admin/routes');
@@ -21,7 +21,7 @@ server.use('/static', express.static('static'));
 //Modules.
 server.use('/v1/api/devenv', devenvModule);
 server.use('/v1/api/users', userModule);
-server.use('/v1/admin', adminModule);
+server.use('/v1/api/admin', adminModule);
 server.use('/v1/api/courses', coursesModule)
 
 module.exports = server;

@@ -16,7 +16,6 @@
   "author": "Axel Alexis Montejo Lopez (alemontejo.lp@gmail.com)",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^2.0.1",
     "better-validator": "^2.1.8",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",

@@ -2,7 +2,7 @@
 
 const flow = {};
 const handler = require('./handlers');
-const midd = require('../../services/middlewares');
+const midd = require('../../lib/middlewares');
 const conf = require('../../config');
 const videos = require('multer')({ dest: conf.videoPath });
 

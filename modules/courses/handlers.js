@@ -1,7 +1,7 @@
 'use strict';
 
 const handler = {};
-const mysql = require('../../services/mysql');
+const mysql = require('../../lib/mysql');
 
 handler.getCourses = (req, res) => {
   let limit = req.query.limit || 20;

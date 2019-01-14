@@ -1,15 +1,15 @@
 'use strict';
 
-const compAndRun = require('../../services/comp_and_run');
+const buildAndRun = require('../../lib/build_and_run');
 const conf = require('../../config');
 const array = require('../../lib/array');
-const util = require('../../services/utils');
+const util = require('../../lib/utils');
 const handler = {};
 
 handler.run = (req, res) => {
   let buildPath = conf.buildPath + req.api.programName;
   let sourcePath = conf.sourcePath + req.file.filename;
-  compAndRun.run(buildPath, array.clearString(req.body.stdin).join(' '))
+  buildAndRun.run(buildPath, array.clearString(req.body.stdin).join(' '))
   .then(result => {
     req.api.tracking.push('Ejecución del binario terminada.');
     let status = (result) ? (200) : (201);

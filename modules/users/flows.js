@@ -2,7 +2,7 @@
 
 const flow = {};
 const handlers = require('./handlers');
-const midd = require('../../services/middlewares');
+const midd = require('../../lib/middlewares');
 
 flow.signup = [
   midd.appAuth,

@@ -19,7 +19,7 @@
 </head>
 <body>
   <form id="form">
-    <input type="text" id ="course" placeholder="Course">
+    <input type="text" id ="course" placeholder="Course (alias)">
     <input type="text" id ="title" placeholder="Title">
     <input type="file" id ="file">
     <input type="submit">
@@ -36,22 +36,22 @@
       formData.append('title', document.getElementById('title').value);
       formData.append('video', file.files[0]);
 
-      fetch('http://localhost:3000/v1/admin/video', {
+      fetch('http://localhost:3000/v1/api/admin/video', {
         method: 'POST',
         headers: {
-          'Authorization': 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTQyODkxMzQyLCJleHAiOjE1NDI5Nzc3NDJ9.A66eUUc_mqb-OJJF-J7UBWHd4hAcbaNmv3egd0DdsAo_BVgwC50tGVJ0XLnBqdq4wBDs1_tDGSuimYMicskRB6LZsSFYq4vqoHwkpEGhV7cQ1qljpvOlejojEMacjzEdkVpzu4Lm14nVRkJD4LZuhq37L45G__pBBwx3chOeOVeyw3nn7MiJwPG47j_RjcZgysqfqQkvdxKNEN64Y4ijRCTOM3yNOLE-X3iuN1V6uWIou3bvKvLNM_va5zPiCQz2QHRytNLfXpUQxJb3gTTFx91athvuvzGX92XWkpn-vNmOCtUOxec8ji-r71OOEegHRu-3pkZ0e-f5swyyDRwLcA'
+          'Authorization': 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNTQ3MzkxNDMyLCJleHAiOjE1NDc0Nzc4MzJ9.V4FD3P2GD4VLLtwf6CAGyou2mgc8RgvbSELRjD7aAoozFdAdswLZRnsuXEx7uV7xkgii6qKcVodP7IVPBgveZ6dgrvfFZpI_4Xl5iQe1iAaHit1PTGT8B_HRFJ_-3pTgiurzPl4PQCH9C2VVUcdXTqh3AEcK4O0TPCKJFHdEP0midOWtYo7CNyIbIEqtT37NfGDL-ZvdLlzZaiUt2QRgBql9hE4M3LbbADireGdljm9upE2xTFpy5AOoKUv4gQTYLifi5dDy8uIrfIBsUEKLEp5fv_XiWtD_O7_TIErjTnay3GkjiORCUKRaZ2nKplHUXret3nV_Kr9bqOwX3w4XrA',
+          'x-clientapp': 'ada0536cae77ab2e75ef21b5437ba467b0670c352aa24b1c954325800ce00b9a'
         },
         body: formData
       })
+      .then(res => res.json())
       .then((res) => {
+        console.log('Se hizo la petición.');
         console.log(res);
-        console.log(res.body);
-        alert(res.statusText);
       })
       .catch((res) => {
+        console.log('Error:');
         console.log(res);
-        console.log(res.body);
-        alert(res.statusText);
       });
     });
   </script>
